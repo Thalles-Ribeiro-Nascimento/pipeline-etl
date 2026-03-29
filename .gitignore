@@ -1,0 +1,20 @@
+# Ambientes virtuais
+.venv/
+venv/
+ENV/
+
+# Python
+__pycache__/
+
+# Poetry
+# poetry.lock
+dist/
+.eggs/
+*.egg-info/
+
+# IDEs (Opcional)
+.vscode/
+.idea/
+
+# Variaveis de Ambiente
+.env
