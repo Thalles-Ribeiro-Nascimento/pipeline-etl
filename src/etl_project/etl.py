@@ -26,7 +26,7 @@ def transform(apiResponse):
     brl = cotacaoDolarReal['USDBRL']['codein']
     cotacaoVenda = float(cotacaoDolarReal['USDBRL']['ask'])
 
-    amountBrl = amount / cotacaoVenda
+    amountBrl = amount * cotacaoVenda
     
     dados = {
         'Ticker': ticker,
