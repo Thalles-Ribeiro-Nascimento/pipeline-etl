@@ -61,7 +61,7 @@ while True:
             df = transform(dados)
             print(f"\nDados: {df}")
             responseDB = load(conexao(), df)
-        time.sleep(15)
+        time.sleep(60*10)
 
     except KeyboardInterrupt:
         print("\nProcesso interrompido pelo usuário. Finalizando...")
@@ -69,5 +69,5 @@ while True:
 
     except Exception as e:
         print(f"Erro durante a execução: {e}")
-        time.sleep(15)
+        time.sleep(60*10) # Atualiza a cada 10 min
 
