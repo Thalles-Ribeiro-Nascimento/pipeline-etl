@@ -4,12 +4,12 @@ import pandas as pd
 import time
 import plotly.express as px
 
-@stl.cache_data(ttl=60*1) # Fica em cache por 1 minutos
+@stl.cache_data(ttl=1) # Fica em cache por 1 minutos
 def extractToGrafic():
     engine = conexao()
 
     df = pd.read_sql("SELECT * FROM cotacao_crypto", engine)
-    df.rename(columns={'ticker': 'Ticker', 'Amount': 'Cotação em Dolar', 'Amount BRL': 'Cotação em Real', 'Timestamp':'Data e Hora', 'id': 'ID'}, inplace=True)
+    df.rename(columns={'crypto': 'Ticker', 'amount': 'Cotação em Dolar', 'amount_brl': 'Cotação em Real', 'timestamp':'Data e Hora', 'id': 'ID'}, inplace=True)
 
     return df
 
@@ -34,5 +34,5 @@ stl.plotly_chart(fig, use_container_width=True, key="btc_brl_chart")
 stl.plotly_chart(figDolar, use_container_width=True, key="btc_dolar_chart")
 
 stl.caption(f"Última atualização: {pd.Timestamp.now().strftime('%H:%M:%S')} — atualiza a cada 10 min")
-time.sleep(60*10) # Atualiza a cada hora
+time.sleep(5) # Atualiza a cada hora
 stl.rerun()
