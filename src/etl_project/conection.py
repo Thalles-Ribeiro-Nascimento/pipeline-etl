@@ -1,4 +1,8 @@
-from sqlalchemy import create_engine
+from sqlalchemy import (
+    create_engine,
+    Table, Column, MetaData,
+    Integer, String, Float, DateTime
+)
 import os
 from dotenv import load_dotenv
 
