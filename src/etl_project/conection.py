@@ -19,4 +19,17 @@ def conexao():
         f"mysql+pymysql://{user}:{password}@{host}:{port}/{name_db}"
     )
 
+def criar_tabela(engine):
+    metadata = MetaData()
 
+    cotacao_crypto = Table(
+        "cotacao_crypto", metadata,
+        Column("id",              Integer,    primary_key=True, autoincrement=True),
+        Column("crypto",          String(50), nullable=False),
+        Column("amount",          Float,      nullable=False),
+        Column("cotacao_usd_brl", Float,      nullable=False),
+        Column("amount_brl",      Float,      nullable=False),
+        Column("timestamp",       DateTime),
+    )
+ 
+    metadata.create_all(engine, checkfirst=True)
