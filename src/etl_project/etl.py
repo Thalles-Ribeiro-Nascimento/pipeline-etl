@@ -1,8 +1,12 @@
 import pandas as pd
 import requests as rqs
 from datetime import datetime
-from conection import conexao
+from conection import conexao, criar_tabela
 import time
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 def extract(api):
@@ -29,11 +33,11 @@ def transform(apiResponse):
     amountBrl = amount * cotacaoVenda
     
     dados = {
-        'Ticker': ticker,
-        'Amount': amount,
-        'Cotação Dola-Real': cotacaoVenda,
-        'Amount BRL': amountBrl,
-        'Timestamp': timestamp
+        'crypto': ticker,
+        'amount': amount,
+        'cotacao_usd_brl': cotacaoVenda,
+        'amount_brl': amountBrl,
+        'timestamp': timestamp
     }
 
     df = pd.DataFrame(dados, index=[0])
@@ -43,13 +47,15 @@ def transform(apiResponse):
 
 def load(conexao, dataFrame):
     dataFrame.to_sql(
-        name="cotacao_crypto",
+        name=os.getenv('NAME_TABLE'),
         con=conexao,
         if_exists="append",
         index=False
     )
     return "Dados inseridos no Banco!"
 
+
+criar_tabela(conexao())
 
 while True:
     api_url = 'https://api.coinbase.com/v2/prices/spot' # API para consultar o valor do Bitcoin em tempo real
@@ -61,7 +67,8 @@ while True:
             df = transform(dados)
             print(f"\nDados: {df}")
             responseDB = load(conexao(), df)
-        time.sleep(60*10)
+            print(responseDB)
+        time.sleep(5)
 
     except KeyboardInterrupt:
         print("\nProcesso interrompido pelo usuário. Finalizando...")
@@ -69,5 +76,5 @@ while True:
 
     except Exception as e:
         print(f"Erro durante a execução: {e}")
-        time.sleep(60*10) # Atualiza a cada 10 min
+        time.sleep(5) # Atualiza a cada 10 min
 
